@@ -14,10 +14,28 @@ Project Files
   
 
   
-How to run the project:
-1. Open the MATLAB Live Script and run each section in order.
-2. Download the droneArmMaterials.mat file and run it to see material choices and values.
-3. Download the three CAD files for the three drone arm designs from the CADFilesForCode folder. 
-4. Download the main_drone_analysis.mlx file or copy and paste code to run on MATLAB Live Script.
-5. Ensure the CAD file names are the same as ones stored in the matrix "CADFiles".
-6. Run the code, it takes 1-2 minutes to run the simulations and output the graphs and results.
+  
+How to Run the Project
+1.Drone-Payload-Project-Banjo.
+2.Open MATLAB--->MATLAB Live Script.
+3.Set the MATLAB Current Folder to the main project folder.
+4.Make sure the required files are included:
+   droneArmMaterials.mat --> download
+   CADFilesForCode/--> Download Design1, Design2,Design3
+STL files for the drone arm designs
+5.Open Maincode_drone_analysis.mlx --> copy all the code using copy and paste into MATLAB Live Script.
+6.Check that the STL file names in the code match the file names in the CADFilesForCode folder.
+7.Run the Live Script from the top using Run All.
+8.The code will load the material data, run the thrust-to-weight analysis, import the CAD files, run FEA, and generate result tables and plots.
+9.Wait about 1–2 minutes for the simulations to finish.
+10.Review the output tables and graphs for:
+   Maximum payload
+   Thrust-to-weight ratio
+   Maximum displacement
+   Maximum von Mises stress
+   Factor of safety
+   FEA status
+   Cost per arm
+   Total cost for four arms
+11.Keep the folder structure the same so MATLAB can find the .mat file and STL files correctly.
+12.After the code finishes, MATLAB will display result tables and generate comparison plots for factor of safety, displacement, stress, and cost for all 3 design.

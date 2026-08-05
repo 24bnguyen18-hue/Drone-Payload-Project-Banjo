@@ -7,7 +7,8 @@ Project Files
 - droneArmMaterials.mat: material property data
 - CADFilesForCode: CAD files for drone arm designs
 - main_drone_analysis.mlx: Code for Thrust-to-Weight Analysis and Finite Element Analysis
-- Final_Live_Script.pdf: PDF of the Final Live Script with analysis of code and results
+- Final_Live_Script.pdf: PDF of the Final Live Script
+- Maincodedrone_analysis.mlx: Final live script with analysis of the code and results.
 - Team_Agreement_Banjo.pdf: Team Agreement for Team Banjo
   
 

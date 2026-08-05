@@ -12,12 +12,14 @@ Project Files
   
 
   
-How to run the project
-Open the MATLAB Live Script and run each section in order.
-Download the three CAD files for the three drone arm designs. 
-Download the main_drone_analysis.mlx file or copy and paste code to run on MATLAB Live Script.
-Ensure the CAD file names are the same as ones stored in the matrix "CADFiles".
-Run the code, it takes 1-2 minutes to run the simulations and output the graphs and results.
+How to run the project:
+1. Open the MATLAB Live Script and run each section in order.
+2.  Download the three CAD files for the three drone arm designs. 
+3. Download the main_drone_analysis.mlx file or copy and paste code to run on MATLAB Live Script.
+4. Ensure the CAD file names are the same as ones stored in the matrix "CADFiles".
+5. Run the code, it takes 1-2 minutes to run the simulations and output the graphs and results.
+
+   
 
 
 

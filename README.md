@@ -10,6 +10,7 @@ Project Files
 - Final_Live_Script.pdf: PDF of the Final Live Script
 - Maincodedrone_analysis.mlx: Final live script with analysis of the code and results.
 - Team_Agreement_Banjo.pdf: Team Agreement for Team Banjo
+- Thrust-To-Weight and FEA Code: PDF of TWR and FEA results.
   
 
   

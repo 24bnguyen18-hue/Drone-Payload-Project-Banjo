@@ -20,7 +20,7 @@ How to Run the Project
 2.Open MATLAB--->MATLAB Live Script.
 3.Set the MATLAB Current Folder to the main project folder.
 4.Make sure the required files are included:
-   droneArmMaterials.mat --> download
+   - droneArmMaterials.mat --> download
    CADFilesForCode/--> Download Design1, Design2,Design3
 STL files for the drone arm designs
 5.Open Maincode_drone_analysis.mlx --> copy all the code using copy and paste into MATLAB Live Script.

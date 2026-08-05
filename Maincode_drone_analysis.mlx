@@ -43,7 +43,9 @@ armMass =  [0.012, 0.021, 0.015, 0.0095, 0.0080, 0.0046; %Design 1 Mass of drone
 
  
 maxPayload = zeros(numDesigns,numMaterials);
-
+% This is to created function with the idea of multiple loops combined together since
+% it would be going through multiple designs with multiple materials that it would be testing. 
+% Then it will calculated the drone mass from  the drone arm designs for each material and the given baseMass.
 function results = thrustToWeightAnalysis(baseMass,armMass,totalThrust_N,designs,materials)
 i = 1;
 g = 9.81; % Gravitational Constant
@@ -57,14 +59,19 @@ for design = 1:numDesigns
     for material = 1:numMaterials
         droneMass = baseMass + (4 * armMass(design,material));
         droneWeight = droneMass * g; 
-        maxPayload = (totalThrust_N/(2*g)) - droneMass; % Derived from TotalThrust/Weight  
+        maxPayload = (totalThrust_N/(2*g)) - droneMass; 
+        % Weight is equal to the mass times the gravitation constant. We know that each motor can provide up to 1 kg of thrust, with 4 motors is 4 kg of thrust (converted to Newtons), divided by 2 times the gravitational constant 
+        % because we were looking for a 2:1 thrust to weight ratio, 
+        % and subtracting it by the droneMass because we are not including that into the max payload.   
        
         totalMass=droneMass + maxPayload;
         totalWeight=totalMass*g;
         TWR = totalThrust_N/totalWeight;
 
         maxPayload = max(maxPayload,0); % To prevent negative payload value
+        
 
+        % We added true/false conditions to check whether the ratio or payload minimums were reached and stored them in lists to be displayed on the table after all designs and materials were tested.
         meetsPayload = maxPayload >= minimumPayload; % Holds a pass/fail value for meeting 0.5 kg requirement
         meetsTWR = TWR >= ratio; % Holds a pass/fail value for meeting 2:1 ratio
         meetsRequirement = meetsPayload && meetsTWR; % Sees if design meets both ratio and payload values.
@@ -423,7 +430,7 @@ title("Von Mises Stress: " + designNames(DesignPlot))
 
 % This is to visualize x, y, and z-direction. The warmer colors indicate
 % a large displacement in the positive X, Y, Z direction while the cooler color
-% indicates smaller or negative displacement.
+% indicates smaller or negative in X,Y, Z direction.
 figure
 pdeplot3D(plotModel,"ColorMapData", plotResult.Displacement.ux)
 title("X Displacement: " + designNames(DesignPlot))
@@ -437,4 +444,74 @@ title("Y Displacement: " + designNames(DesignPlot))
 figure
 pdeplot3D(plotModel, "ColorMapData", plotResult.Displacement.uz)
 title("Z Displacement: " + designNames(DesignPlot))
+
+
+%Goal: 
+
+% Our approach was to evaluate multiple drone arm designs and material
+%choices using both flight performance calculation and structural analysis.
+
+%First, we loaded the provided material data from droneArmMaterials.mat, 
+% which included properties such as Young's modulus, Poisson's ratio, yield strength, density, and cost.
+
+%Second, we began with a thrust-to-weight and payload analysis. The base drone mass was calculated from the 
+% battery, four motors, four propellers, four ESCs, electronics, GPS/receiver, and center frame. The arm mass was then added separately
+% for each design and material. Since each motor provides 1 kg of thrust, the total thrust for four motors was converted to Newtons using F=mg. 
+% A design passed the flight requirement if it could support at least 0.5 kg of payload while maintaining a thrust-to-weight ratio of at least 2:1.
+
+%Third, we performed finite element analysis on the drone arm STL files in MATLAB. The STL geometries were imported, scaled from millimeters to meters, 
+% and assigned material properties. The face connected to the drone body was fixed using a boundary condition, while the motor mount face was loaded using surface traction. 
+% The motor thrust force was converted to surface traction by dividing the net motor force by the motor mount area. MATLAB then generated a mesh, solved the static structural model, 
+% and calculated maximum displacement and maximum von Mises stress for each design-material combination.
+
+%Result and analysis: 
+
+%Task 3
+% The thrust-to-weight analysis showed which design and material combinations could meet the minimum 0.5 kg payload requirement while maintaining a 2:1 thrust-to-weight ratio. 
+% Lighter arm materials generally improved payload capacity because they reduced the total drone mass. Heavier designs reduced payload capacity because more of the available 
+% thrust was used to lift the drone itself instead of the payload.
+
+%Task 4
+%The FEA results showed the maximum displacement, von Mises stress, and factor of safety for each drone arm design and material. The displacement results helped determine 
+% how much each arm bent under the applied motor load. Lower displacement means the design is stiffer and more stable. 
+% The von Mises stress results showed where the highest internal stress occurred in the arm. Lower stress indicates better structural performance, while stress values close to the yield strength would indicate possible failure.
+
+% Another idea
+% The cost analysis added another comparison factor. Material cost per meter was used to estimate the cost per arm and the total cost for four arms. This helped compare not only which design was strongest,
+% but also which design was most cost-effective. A material such as carbon fiber may provide excellent stiffness and strength, but it may also be more expensive. Plastics such as PLA and ABS may be cheaper, 
+% but they may have higher displacement or lower strength.
+
+
+%Challenge:
+
+% One challenge was identifying the correct face IDs for the base and motor mount surfaces. 
+% The base face needed to represent the side connected to the drone body, while the motor face needed to represent the surface where the motor or propeller load was applied.
+% We used MATLAB face-label plots to identify these faces for each design.
+
+% A second challenge was calculating surface traction correctly. The motor thrust force should be distributed over the actual motor mount area, not just an arbitrary face or small hole. 
+% Because the motor mount areas were different for each design, each design required its own motor mount diameter and area calculation.
+
+% The third challenge was calculating surface traction correctly. The motor thrust force should be distributed over the actual motor mount area, 
+% not just an arbitrary face or small hole. Because the motor mount areas were different for each design, each design required its own motor mount diameter and area calculation.
+
+% The final challenge was combining the thrust-to-weight results with the FEA results. The payload/TWR analysis and FEA analysis originally produced separate tables, 
+% so the design and material names had to match exactly before joining them into one combined comparison table.
+
+
+%Design Decision:
+
+% We sorted each design-material combination by checking both the minimum requirements and the overall engineering performance. First, we removed any option that did not meet the required 0.5 kg payload, 
+% 2:1 thrust-to-weight ratio, and FoS ≥ 1.5. After that, we ranked the remaining passing options by comparing payload capacity, von Mises stress, displacement, cost, and factor of safety. 
+% We prioritized higher payload because the drone must carry weight, but we
+% also considered lower stress and lower displacement because they show
+% better structural performance. Lower displacement means the drone arm
+% bend or moves less when the motor thrust force is applied so lower value means
+% its better since it keeps the shape of drone from tilting or bending too
+% much. Lower stress means the drone arm has less internal force inside the
+% material when motor thrust is applied, which is good because it reduces
+% the chance of permanent deformation or failure.Cost was included because the best design should also be practical and affordable.
+% We did not simply choose the highest FoS because an extremely high FoS can mean the design is overbuilt and not stay in good range. 
+
+% Based on this balanced comparison, Design 1 with Carbon Fiber Composite (CFRP) was selected as the best overall option because it passed all requirements, achieved a payload capacity of 0.952 kg, met the 2:1 TWR, had a FoS of 2.016, and remained in the good design range.
+
 

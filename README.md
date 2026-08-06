@@ -3,12 +3,12 @@ MATLAB drone payload capacity and structural design analysis project.
 This project analyzes drone arm designs and materials to maximize payload capacity while maintaining structural safety.
 
 Project Files
-- DroneDesign_StudentProjectTemplate.mlx: main MATLAB Live Script
-- droneArmMaterials.mat: material property data
+- DroneDesign_StudentProjectTemplate.mlx: Main MATLAB Live Script
+- droneArmMaterials.mat: Material property data
 - CADFilesForCode: CAD files for drone arm designs
 - main_drone_analysis.mlx: Code for Thrust-to-Weight Analysis and Finite Element Analysis
 - Final_Live_Script.pdf: PDF of the Final Live Script
-- Maincodedrone_analysis.mlx: Final live script with analysis of the code and results.
+- Maincodedrone_analysis.mlx: Final Live Script with analysis of the code and results.
 - Team_Agreement_Banjo.pdf: Team Agreement for Team Banjo
 - Thrust-To-Weight and FEA Code: PDF of TWR and FEA results.
   
